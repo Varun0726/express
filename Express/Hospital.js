@@ -19,7 +19,7 @@ function numberKidney(x){
 }
 
 function Unhealth(n){
-    let output = False;
+    let output = false;
     for (let i = 0 ;i< n ; i++){
         if (User[0].Kidneys[i].health === "Unhealthy"){
             return true;
@@ -57,7 +57,7 @@ app.post("/",(req,res) =>{
 app.put("/",(req,res) =>{
     const numberofKidney = User[0].Kidneys.length;
     if (Unhealth(numberofKidney)){
-        for (let i =0;i<=numberofKidney;i++ ){
+        for (let i =0;i<numberofKidney;i++ ){
             User[0].Kidneys[i].health = "healthy"
         }
     }
@@ -70,17 +70,16 @@ app.delete("/",(req,res) =>{
     const numberofKidney = User[0].Kidneys.length;
     if (Unhealth(numberofKidney)){
         Kidney = []
-        for (let i = 0; i<= numberofKidney ; i++){
-            if (User[0].Kidneys[i].health == "healthy")
+        for (let i = 0; i< numberofKidney ; i++){
+            if (User[0].Kidneys[i].health == "healthy"){
             
-                Kidney.push({number : i,
-                health : "healthy"
-                })
+                Kidney.push(User[0].Kidneys[i])
         }
-        User[0].Kidneys = Kidney;
     }
-    res.json({
-        msg:"Done"
+    User[0].Kidneys = Kidney;
+}
+res.json({
+    msg:"Done"
     })
 })
 
