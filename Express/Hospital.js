@@ -18,20 +18,35 @@ function numberKidney(x){
     return kidney;
 }
 
+function Unhealth(n){
+    let output = False;
+    for (let i = 0 ;i< n ; i++){
+        if (User[0].Kidneys[i].health === "Unhealthy"){
+            return true;
+        }
+    }
+    return output;
+}
+
+app.use(express.json());
+
 app.get("/",(req,res) =>{
     const numberofKidney = User[0].Kidneys.length;
-    const healthKidneys = User[0].Kidneys.filter(numberKidney).length
+    const healthKidneys = User[0].Kidneys.filter(numberKidney).length;
+    const UnhealthyKidney = numberofKidney - healthKidneys
     res.json({
         numberofKidney,
-        healthKidneys
+        healthKidneys,
+        UnhealthyKidney
     });
 })
 
 app.post("/",(req,res) =>{
     const numberofKidney = User[0].Kidneys.length;
+    const health = req.body.health;
     const newKidney = {
         number : numberofKidney,
-        health : "healthy"
+        health : health
     }
     User[0].Kidneys.push(newKidney);
     res.json({
@@ -40,14 +55,33 @@ app.post("/",(req,res) =>{
 })
 
 app.put("/",(req,res) =>{
-    unhealthyKidney-=1;
-    healthyKidney+=1;
-    res.send(`healthy kidney = ${healthyKidney},unhealthy kidney = ${unhealthyKidney}`)
+    const numberofKidney = User[0].Kidneys.length;
+    if (Unhealth(numberofKidney)){
+        for (let i =0;i<=numberofKidney;i++ ){
+            User[0].Kidneys[i].health = "healthy"
+        }
+    }
+    res.json({
+        msg:"Done"
+    })
 })
 
 app.delete("/",(req,res) =>{
-    unhealthyKidney = 0;
-    res.send(`healthy kidney = ${healthyKidney},unhealthy kidney = ${unhealthyKidney}`)
+    const numberofKidney = User[0].Kidneys.length;
+    if (Unhealth(numberofKidney)){
+        Kidney = []
+        for (let i = 0; i<= numberofKidney ; i++){
+            if (User[0].Kidneys[i].health == "healthy")
+            
+                Kidney.push({number : i,
+                health : "healthy"
+                })
+        }
+        User[0].Kidneys = Kidney;
+    }
+    res.json({
+        msg:"Done"
+    })
 })
 
 app.listen(port,() => {
